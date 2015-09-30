@@ -1,0 +1,153 @@
+﻿<!-- Comp 2025 Assignment 1 : Jung Kim  -->
+
+<!DOCTYPE html>
+<html>
+<head>
+
+	<title>2025 Assignment 1</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style type="text/css">
+	 	html { height: 100%; }
+        body { height: 100%; margin: 0px; padding: 0px; }
+        #page-div { height: 100%; width: 100%; }
+        #map-div { height: 40%; width: 100%;}
+        #burnaby-map-canvas { height: 100%; width: 100%; }
+        #downtown-map-canvas { height: 100%; width: 100%; }
+        .hide { display: none; }
+	</style>
+
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+	<script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+
+	<script>
+
+    var canvas, burnabyCampusLating, downtownCampusLating, campusMap, center, options, pageViewCount = 0;
+
+    // Initialize google map.
+    function mapInitialize(latlng, canvas, zoom){
+    	var mapCanvas = document.getElementById(canvas);
+    	
+    	options = {
+          center: latlng,
+          zoom: zoom,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        campusMap = new google.maps.Map(mapCanvas, options);
+
+        var marker = new google.maps.Marker({
+		    position: latlng,
+		    map: campusMap,
+		    title: 'BCIT'
+  		});
+    }
+
+    // changes the map and info when option selected.
+	$(document).ready(function() {  
+
+			initCampusLating = new google.maps.LatLng(49.1693913,-122.8672693,10.61);
+	        canvas = "initial-map-canvas";
+
+	        google.maps.event.addDomListener(window, 'load', mapInitialize(initCampusLating, canvas, 12));
+
+	        google.maps.event.addDomListener(window, "resize", function() { 
+
+	        		center = campusMap.getCenter();
+					google.maps.event.trigger(campusMap, "resize");
+					campusMap.setCenter(center); 
+					 
+			});
+
+		    $('#select-native-1').change(function(){
+
+		        if($('#select-native-1 option:selected').text() == "Burnaby Campus") {
+
+		        burnabyCampusLating = new google.maps.LatLng(49.2457819,-123.0014714,13.57);
+	        	canvas = "burnaby-map-canvas";
+
+	        	$("#initial-map-canvas").addClass("hide");
+	    		$("#burnaby-map-canvas").removeClass("hide");
+	    		$("#downtown-map-canvas").addClass("hide");
+
+	    		$("#initial-info-p").addClass("hide");
+				$("#burnaby-info-p").removeClass("hide");
+				$('#downtown-info-p').addClass("hide");
+
+		      	google.maps.event.addDomListener(window, 'load', mapInitialize(burnabyCampusLating, canvas, 12)); // without re-init, re-centering doesn't work.
+	
+		    	} else if ($('#select-native-1 option:selected').text() == "Downtown Campus") {
+
+		    	downtownCampusLating = new google.maps.LatLng(49.2834511,-123.1152548,15);
+		        canvas = "downtown-map-canvas";
+
+	    		$("#initial-map-canvas").addClass("hide");
+	    		$("#burnaby-map-canvas").addClass("hide");
+	    	    $("#downtown-map-canvas").removeClass("hide");
+
+	    		$("#initial-info-p").addClass("hide");
+				$("#burnaby-info-p").addClass("hide");
+				$("#downtown-info-p").removeClass("hide");
+
+		    	google.maps.event.addDomListener(window, 'load', mapInitialize(downtownCampusLating, canvas, 16));  
+
+		    	} else if ($('#select-native-1 option:selected').text() == "Select BCIT Campus") {
+
+	    		$("#initial-map-canvas").removeClass("hide");
+	    		$("#burnaby-map-canvas").addClass("hide");
+	    		$("#downtown-map-canvas").addClass("hide");
+
+	    		$("#initial-info-p").removeClass("hide");
+				$("#burnaby-info-p").addClass("hide");
+				$("#downtown-info-p").addClass("hide");
+
+		    	}
+	    	});	    
+		});
+   
+    </script>
+
+</head>
+
+<body>
+
+<div id="page-div" data-role="page">
+
+	<div id="header-div" data-role="header">
+		<h1>BCIT CAMPUSES</h1>
+	</div><!-- /header -->
+
+	<div>
+	<form>
+		<div class="ui-field-contain">
+		    <select name="select-native-1" id="select-native-1">
+				<option id="burnabyCampus" value="1">Select BCIT Campus</option>
+		        <option id="burnabyCampus" value="2">Burnaby Campus</option>
+		        <option id="downtownCampus" value="3">Downtown Campus</option>
+		    </select>
+		</div>
+	</form>
+	</div>
+
+	<div id="map-div" class="ui-field-contain">
+		<div id="initial-map-canvas" class=""></div>
+		<div id="burnaby-map-canvas" class="hide"></div>
+		<div id="downtown-map-canvas" class="hide"></div>
+	</div>
+
+	<div id="campus-info-div" class="ui-field-contain">
+		<p id="initial-info-p" class="">Campus Info Area</p>
+		<p id="burnaby-info-p" class="hide">Burnaby Info: Address: 3700 Willingdon Ave, Burnaby, BC V5G 3H2 | Phone: (604) 434-5734</p>
+		<p id="downtown-info-p" class="hide">Downtown Info: Address: 555 Seymour St, Vancouver, BC V6B 3H6 | Phone:(604) 434-5734</p>
+	</div>
+
+	<div id="footer-div" data-role="footer">
+		<h4>Jung Kim</h4>
+	</div><!-- /footer -->
+</div><!-- /page -->
+
+</body>
+</html>
