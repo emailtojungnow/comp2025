@@ -8,7 +8,8 @@
  *     - #f00
  *     - rgb(255,0,0)
  *     - rgba(255,0,0,0.5) (alpha range: 0.0-1.0)
- * [3] angles: [60, 90, 210] (360 deg overall)
+ * [3] angles: [60, 90, 210] (360 deg overall) 
+ * [4] colorCount: total number of color choice submission.
  * Note: colours and angles arrays must have identical length.
  */
 
