@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: A00846555 Input template for responsive-child
+ * Template Name: A00846775 Input template for responsive-child
  */
 
 // Exit if accessed directly
@@ -76,11 +76,8 @@ jQuery( document ).ready(function() {
    <script> 
      alert("Thanks for submitting your data!");  
    </script>
-<?php else; ?>
-  <script> 
-     alert("Sorry data submssion fail!");  
-   </script>
 <?php endif; ?>
+
 
 
     
