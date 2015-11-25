@@ -49,3 +49,44 @@ var app = {
 };
 
 app.initialize();
+
+// write to file
+//
+function writeFile(fileName, fileContent) {
+    window.requestFileSystem(LocalFileSystem.PERSISTENT,
+                            0, 
+                            function (fileSystem){
+                                fileSystem.root.getFile(fileName, {create: true, exclusive: false}, 
+                                    function (fileEntry) {
+                                        fileEntry.createWriter(function (writer) {
+                                            writer.onwriteend = function(evt) {
+                                                console.log("contents written.");
+                                            };
+                                            writer.write(fileContent);
+                                        }, 
+                                        onWriteFail);
+                                    }, 
+                                    onWriteFail);
+                            }, 
+                            onWriteFail);
+}
+
+function onWriteFail(error) {
+    console.log(error.code);
+}
+
+
+
+
+
+jQuery("#fileWriteButton").click(function() {
+    alert( "Handler for writeButton called." );
+    // var fileName = jQuery("#fileWriteTitle").text();
+    // var fileContent = jQuery("#fileWriteContent").text();
+    // writeFile(fileName, fileContent);
+});
+
+jQuery("#fileReadButton").click(function() {
+    alert( "Handler for readButton called." );
+});
+
