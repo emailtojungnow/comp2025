@@ -9,6 +9,9 @@
     "installed_plugins": {
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "ca.bcit.a00846775"
+        },
+        "cordova-plugin-camera": {
+            "PACKAGE_NAME": "ca.bcit.a00846775"
         }
     },
     "dependent_plugins": {}
