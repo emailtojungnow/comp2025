@@ -60,33 +60,52 @@ function writeFile(fileName, fileContent) {
                                     function (fileEntry) {
                                         fileEntry.createWriter(function (writer) {
                                             writer.onwriteend = function(evt) {
-                                                console.log("contents written.");
+                                                console.log("content written.");
                                             };
                                             writer.write(fileContent);
-                                        }, 
-                                        onWriteFail);
-                                    }, 
-                                    onWriteFail);
-                            }, 
-                            onWriteFail);
+                                        }, fail);
+                                    }, fail);
+                            }, fail);
 }
 
-function onWriteFail(error) {
+// read from file
+//
+function readFile(fileName) {
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, 
+        function (fileSystem) {
+            fileSystem.root.getFile(fileName, null, 
+                function (fileEntry) {
+                fileEntry.file(
+                    function (file) {
+                        var reader = new FileReader();
+                        reader.onloadend = function(evt) {
+                            console.log("content loaded");
+                            setFileReadContent(evt.target.result); 
+                        };
+                        reader.readAsText(file);
+                    }
+                , fail);
+            }, fail);
+        }, fail);
+}
+
+function setFileReadContent(content){
+    jQuery("#fileReadContent").val(content);
+}
+
+function fail(error) {
     console.log(error.code);
 }
 
-
-
-
-
 jQuery("#fileWriteButton").click(function() {
     alert( "Handler for writeButton called." );
-    // var fileName = jQuery("#fileWriteTitle").text();
-    // var fileContent = jQuery("#fileWriteContent").text();
-    // writeFile(fileName, fileContent);
+    var fileName = jQuery("#fileTitle").val();
+    var fileContent = jQuery("#fileWriteContent").val();
+    writeFile(fileName, fileContent);kld
 });
 
 jQuery("#fileReadButton").click(function() {
     alert( "Handler for readButton called." );
+    var fileName = jQuery("#fileTitle").val();
+    readFile(fileName);
 });
-
