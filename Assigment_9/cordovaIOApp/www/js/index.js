@@ -80,7 +80,7 @@ function readFile(fileName) {
                         var reader = new FileReader();
                         reader.onloadend = function(evt) {
                             console.log("content loaded");
-                            setFileReadContent(evt.target.result); 
+                            setFileReadContent(evt); 
                         };
                         reader.readAsText(file);
                     }
@@ -89,8 +89,8 @@ function readFile(fileName) {
         }, fail);
 }
 
-function setFileReadContent(content){
-    jQuery("#fileReadContent").val(content);
+function setFileReadContent(evt){
+    jQuery("#fileReadContent").val(evt.target.result);
 }
 
 function fail(error) {
